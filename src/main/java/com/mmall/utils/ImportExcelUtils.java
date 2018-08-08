@@ -56,9 +56,100 @@ public class ImportExcelUtils {
         }
     }
 
-    public static <T> List<T> getData(String filePath, Class<T> clz){
+    public static <T> List<T> getData(String filePath, Class<T> clz) throws IllegalAccessException, InstantiationException {
         List<T> list = new ArrayList<>();
+        T t = clz.newInstance();
+        try{
+            // 同时支持Excel 2003、2007
+            // 创建文件对象
+            File excelFile = new File(filePath);
+            // 文件流
+            FileInputStream in = new FileInputStream(excelFile);
+            checkExcelVaild(excelFile);
+            Workbook workbook = getWorkbok(in,excelFile);
+
+            // Sheet的数量
+            int sheetCount = workbook.getNumberOfSheets();
+            for(int i = 0; i < sheetCount; i++){
+                Sheet sheet = workbook.getSheetAt(i);
+                //获取总行数
+                int rowTotalCount = sheet.getLastRowNum();
+
+                traversalRow(sheet, rowTotalCount, t);
+            }
+
+        }catch (Exception e){
+
+        }
         return list;
+    }
+
+    /**
+     * 遍历每一个Sheet的行
+     * @param sheet
+     */
+    private static <T> void traversalRow(Sheet sheet, int rowTotalCount, T t) {
+        // 跳过第一的目录
+        for (int i = 1; i < rowTotalCount; i++) {
+            Row row = sheet.getRow(i);
+            try {
+                //获取总列数(空格的不计算)
+                int columnTotalNum = row.getPhysicalNumberOfCells();
+                System.out.println("总列数：" + columnTotalNum);
+                System.out.println("最大列数：" + row.getLastCellNum());
+                //遍历每一行的单元格
+                traversalCell(row, row.getLastCellNum(), t);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 遍历每一行的单元格
+     * @param row
+     */
+    private static <T> void traversalCell(Row row, int cellTotalNum, T t) {
+        //for循环的，不扫描空格的列
+        for (int i = 0; i < cellTotalNum; i++) {
+            Cell cell = row.getCell(i);
+            if(cell == null) {
+                System.out.print("null" + "\t");
+                continue;
+            }
+
+            Object obj = getValue(cell);
+            //处理单元格的值
+            //todo
+
+            System.out.print(obj + "\t");
+        }
+    }
+
+    /**
+     * 读取单元格的值
+     * @param cell
+     * @return
+     */
+    private static Object getValue(Cell cell) {
+        Object obj = null;
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_BOOLEAN:
+                obj = cell.getBooleanCellValue();
+                break;
+            case Cell.CELL_TYPE_ERROR:
+                obj = cell.getErrorCellValue();
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                obj = cell.getNumericCellValue();
+                break;
+            case Cell.CELL_TYPE_STRING:
+                obj = cell.getStringCellValue();
+                break;
+            default:
+                break;
+        }
+        return obj;
     }
 
     public static void main(String[] args) throws Exception {
@@ -69,15 +160,15 @@ public class ImportExcelUtils {
 //        ImportExcelUtils.getData(path, CarReportDTO.class);
 
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            // 同时支持Excel 2003、2007
-            // 创建文件对象
-            File excelFile = new File(path+"/test.xlsx");
-            // 文件流
-            FileInputStream in = new FileInputStream(excelFile);
-            checkExcelVaild(excelFile);
-            Workbook workbook = getWorkbok(in,excelFile);
 
+            try {
+                // 同时支持Excel 2003、2007
+                // 创建文件对象
+                File excelFile = new File(path+"/test.xlsx");
+                // 文件流
+                FileInputStream in = new FileInputStream(excelFile);
+                checkExcelVaild(excelFile);
+                Workbook workbook = getWorkbok(in,excelFile);
             // Sheet的数量
             int sheetCount = workbook.getNumberOfSheets();
             System.out.println(sheetCount);
@@ -87,7 +178,7 @@ public class ImportExcelUtils {
             Sheet sheet = workbook.getSheetAt(0);
 
             //获取总行数
-          System.out.println(sheet.getLastRowNum());
+            System.out.println(sheet.getLastRowNum());
 
             // 为跳过第一行目录设置count
             int count = 0;
@@ -111,17 +202,7 @@ public class ImportExcelUtils {
                     System.out.println("最大列数：" + row.getLastCellNum());
 
                     //for循环的，不扫描空格的列
-                    int end = row.getLastCellNum();
-                    for (int i = 0; i < end; i++) {
-                        Cell cell = row.getCell(i);
-                        if(cell == null) {
-                            System.out.print("null" + "\t");
-                            continue;
-                        }
-
-                        Object obj = getValue(cell);
-                        System.out.print(obj + "\t");
-                    }
+                    traversalCell(row,row.getLastCellNum(), null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,27 +210,6 @@ public class ImportExcelUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static Object getValue(Cell cell) {
-        Object obj = null;
-        switch (cell.getCellType()) {
-            case Cell.CELL_TYPE_BOOLEAN:
-                obj = cell.getBooleanCellValue();
-                break;
-            case Cell.CELL_TYPE_ERROR:
-                obj = cell.getErrorCellValue();
-                break;
-            case Cell.CELL_TYPE_NUMERIC:
-                obj = cell.getNumericCellValue();
-                break;
-            case Cell.CELL_TYPE_STRING:
-                obj = cell.getStringCellValue();
-                break;
-            default:
-                break;
-        }
-        return obj;
     }
 
 }
