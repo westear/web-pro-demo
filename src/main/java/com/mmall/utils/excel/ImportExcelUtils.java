@@ -320,7 +320,8 @@ public class ImportExcelUtils {
 
     public static void main(String[] args) {
         String path = ImportExcelUtils.class.getResource("").getPath();
-        //originImportTest();
+        System.out.println(path);
+//        originImportTest();
         List<List<ImportDemoDTO>> dataList = getEntityDataList(path+"/test_import.xlsx", ImportDemoDTO.class);
         for(List<ImportDemoDTO> item : dataList){
             for(ImportDemoDTO importDemoDTO : item){
