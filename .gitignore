@@ -1,4 +1,5 @@
 *.class
+**/*/*.class
 
 #package file
 *.war
