@@ -1,9 +1,7 @@
 package com.mmall.utils.excel;
 
 import com.google.common.collect.Lists;
-import com.mmall.utils.DateFormatUtil;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,6 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -55,24 +54,6 @@ public class ImportExcelUtils {
             wb = new XSSFWorkbook(in);
         }
         return wb;
-    }
-
-    /**
-     * 判断文件是否是excel
-     * @throws Exception
-     */
-    public static void checkExcelVaild(File file) throws Exception{
-        if(!file.exists()){
-            throw new Exception("文件不存在");
-        }
-        boolean isFile = file.isFile();
-        boolean isCorrectType = file.getName().endsWith(EXCEL_XLS) || file.getName().endsWith(EXCEL_XLSX);
-        if(!isFile){
-            throw new Exception("文件不存在");
-        }
-        if(!isCorrectType){
-            throw new Exception("文件不是Excel");
-        }
     }
 
     /**
@@ -117,6 +98,24 @@ public class ImportExcelUtils {
     }
 
     /**
+     * 判断文件是否是excel
+     * @throws Exception
+     */
+    private static void checkExcelVaild(File file) throws Exception{
+        if(!file.exists()){
+            throw new Exception("文件不存在");
+        }
+        boolean isFile = file.isFile();
+        boolean isCorrectType = file.getName().endsWith(EXCEL_XLS) || file.getName().endsWith(EXCEL_XLSX);
+        if(!isFile){
+            throw new Exception("文件不存在");
+        }
+        if(!isCorrectType){
+            throw new Exception("文件不是Excel");
+        }
+    }
+
+    /**
      * 遍历每一个Sheet的行
      * @param sheet
      */
@@ -132,7 +131,7 @@ public class ImportExcelUtils {
                 System.out.println("最大列数：" + row.getLastCellNum());
                 //遍历每一行的单元格
                 LinkedList<Object> cellList = traversalCell(row, row.getLastCellNum());
-                if(CollectionUtils.isNotEmpty(cellList)){
+                if(cellList != null ||cellList.size() > 0){
                     rowList.add(cellList);
                 }
             } catch (Exception e) {
@@ -271,7 +270,13 @@ public class ImportExcelUtils {
                 realValue = cellValue.toString();
                 break;
             case "java.util.Date":
-                Date date = DateFormatUtil.transStringToDate(cellValue.toString(), "yyyy-MM-dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
+                Date date = null;
+                try {
+                    date = sdf.parse(cellValue.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 realValue = StringUtils.isEmpty(cellValue) ? null : date;
                 break;
             case "int":
@@ -320,8 +325,7 @@ public class ImportExcelUtils {
 
     public static void main(String[] args) {
         String path = ImportExcelUtils.class.getResource("").getPath();
-        System.out.println(path);
-//        originImportTest();
+        //originImportTest();
         List<List<ImportDemoDTO>> dataList = getEntityDataList(path+"/test_import.xlsx", ImportDemoDTO.class);
         for(List<ImportDemoDTO> item : dataList){
             for(ImportDemoDTO importDemoDTO : item){
