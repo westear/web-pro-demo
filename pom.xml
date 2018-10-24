@@ -21,6 +21,7 @@
     <org.springframework.version>4.0.0.RELEASE</org.springframework.version>
     <org.mybatis.version>3.4.1</org.mybatis.version>
     <org.mybatis.spring.version>1.3.0</org.mybatis.spring.version>
+    <lombok.version>1.16.14</lombok.version>
     <poi.version>3.11</poi.version>
   </properties>
 
@@ -222,6 +223,12 @@
       <version>0.9.4</version>
     </dependency>
 
+    <!-- lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
 
     <!-- alipay -->
     <dependency>
