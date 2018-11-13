@@ -93,7 +93,7 @@ public class SubListAndArraysAsListDemo {
         /**
          * 通过字节码可知，可变长参数在传入每个一个参数时会new Array()，变量引用内存各不相同，所以不影响原有Array
          * 但是如果可变长参数传入一个数组，那么内存还是和原有Array共用，此时会影响：
-         *  看字节码指令654行: aload 8 可知: 从局部变量8中装载引用类型值入栈
+         *  看字节码指令654行: aload  可知: 用于将局部变量表的指定位置的相应类型变量加载到栈顶
          * (ps: 如果写成 SubListAndArraysAsListDemo.test(new String[]{"1","2"}) 则效果和 90行相同，主要还是看是否 new 了新的内存)
          */
     }
