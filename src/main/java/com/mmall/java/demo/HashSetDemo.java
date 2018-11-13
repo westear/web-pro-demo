@@ -1,4 +1,4 @@
-package com.mmall.utils;
+package com.mmall.java.demo;
 
 import java.util.*;
 
