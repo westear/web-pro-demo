@@ -15,6 +15,18 @@ import java.util.List;
 
 public class SubListAndArraysAsListDemo {
 
+
+    /**
+     * 可变长参数的测试
+     * @param args
+     */
+     public static void test(String... args){
+        System.out.println(args.getClass());
+        for (String arg : args){
+            System.out.println(arg);
+        }
+     }
+
     public static void main(String[] args) {
         Integer[] ints = {1, 2, 3, 4};
         List<Integer> list = new ArrayList<Integer>();
@@ -60,6 +72,29 @@ public class SubListAndArraysAsListDemo {
          * 以上测试，证明：
          * 如果想要减少内存中数量级很大的List的大小,不要使用SubList，SubList会一直引用原来的List,导致其无法被GC回收，容易造成OOM(内存溢出)
          * Arrays.asList 同理
+         */
+
+        /**
+         * 关于Arrays.asList的一些补充
+         */
+        List<Integer> sub5 = Arrays.asList(ints[0], ints[1], ints[2], ints[3]);  //sub3不会影响list
+        System.out.println("sub5 before reverse : " + sub5); //sub5 before reverse : [4, 3, 2, 1]
+        Collections.reverse(sub5);  //
+        System.out.println("sub5 after reverse : " + sub5);  //sub5 after reverse : [1, 2, 3, 4]
+        System.out.println("list : " + list);  //list : [1, 3, 2, 4]
+        System.out.println(Arrays.toString(ints));  //[4, 3, 2, 1]
+
+        /**
+         * 观察两个test()方法的字节码
+         */
+        SubListAndArraysAsListDemo.test("1","2");
+        String[] ss = {"1","2"};
+        SubListAndArraysAsListDemo.test(ss);
+        /**
+         * 通过字节码可知，可变长参数在传入每个一个参数时会new Array()，变量引用内存各不相同，所以不影响原有Array
+         * 但是如果可变长参数传入一个数组，那么内存还是和原有Array共用，此时会影响：
+         *  看字节码指令654行: aload 8 可知: 从局部变量8中装载引用类型值入栈
+         * (ps: 如果写成 SubListAndArraysAsListDemo.test(new String[]{"1","2"}) 则效果和 90行相同，主要还是看是否 new 了新的内存)
          */
     }
 }
