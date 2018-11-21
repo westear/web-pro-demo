@@ -31,7 +31,7 @@ public class JsonUtil {
                 SerializerFeature.WriteNullStringAsEmpty);
     }
 
-    public static String toJsonAsString(Object object) throws JsonProcessingException{
+    public static String toJsonAsString(Object object){
         ObjectMapper objectMapper = new ObjectMapper();
         // 美化输出
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -41,8 +41,13 @@ public class JsonUtil {
 //        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         // 强制JSON 空字符串("")转换为null对象值:
 //        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-
-        return objectMapper.writeValueAsString(object);
+        String jsonString = null;
+        try {
+            jsonString =  objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 
     public static void main(String[] args) {
