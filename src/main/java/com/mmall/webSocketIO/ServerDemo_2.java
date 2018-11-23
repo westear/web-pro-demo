@@ -1,4 +1,4 @@
-package com.mmall.jettySocket;
+package com.mmall.webSocketIO;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;

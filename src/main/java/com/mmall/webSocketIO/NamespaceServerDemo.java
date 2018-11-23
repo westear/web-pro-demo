@@ -1,4 +1,4 @@
-package com.mmall.jettySocket;
+package com.mmall.webSocketIO;
 import com.corundumstudio.socketio.*;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;

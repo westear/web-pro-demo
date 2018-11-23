@@ -1,4 +1,4 @@
-package com.mmall.jettySocket;
+package com.mmall.webSocketIO;
 
 import com.mmall.utils.DateFormatUtil;
 import io.socket.client.IO;
