@@ -1,4 +1,4 @@
-package com.mmall.nettySocket;
+package com.mmall.nettySocket.demo1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

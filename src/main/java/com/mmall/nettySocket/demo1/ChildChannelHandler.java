@@ -1,4 +1,4 @@
-package com.mmall.nettySocket;
+package com.mmall.nettySocket.demo1;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
