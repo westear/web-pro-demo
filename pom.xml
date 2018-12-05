@@ -28,6 +28,7 @@
     <jetty.socket>1.7.7</jetty.socket>
     <socket.client>0.9.0</socket.client>
     <netty.io.version>5.0.0.Alpha1</netty.io.version>
+    <JBoss.Marshalling.version>2.0.5.Final</JBoss.Marshalling.version>
   </properties>
 
   <dependencies>
@@ -321,6 +322,19 @@
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
       <version>${netty.io.version}</version>
+    </dependency>
+
+    <!-- JBoss Marshalling -->
+    <dependency>
+      <groupId>org.jboss.marshalling</groupId>
+      <artifactId>jboss-marshalling</artifactId>
+      <version>${JBoss.Marshalling.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.marshalling</groupId>
+      <artifactId>jboss-marshalling-serial</artifactId>
+      <version>${JBoss.Marshalling.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <!-- elastic-job -->
