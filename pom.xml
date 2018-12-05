@@ -27,6 +27,7 @@
     <poi.version>3.11</poi.version>
     <jetty.socket>1.7.7</jetty.socket>
     <socket.client>0.9.0</socket.client>
+    <netty.io.version>5.0.0.Alpha1</netty.io.version>
   </properties>
 
   <dependencies>
@@ -263,13 +264,19 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
-      <version>2.3.1</version>
+      <version>2.6.1</version>
     </dependency>
 
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>1.2.28</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${org.json.version}</version>
     </dependency>
 
     <dependency>
@@ -309,10 +316,28 @@
       <version>${socket.client}</version>
     </dependency>
 
+    <!-- netty.io -->
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>${org.json.version}</version>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>${netty.io.version}</version>
+    </dependency>
+
+    <!-- elastic-job -->
+    <dependency>
+      <groupId>com.dangdang</groupId>
+      <artifactId>elastic-job-lite-core</artifactId>
+      <version>2.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.dangdang</groupId>
+      <artifactId>elastic-job-lite-spring</artifactId>
+      <version>2.1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-client</artifactId>
+      <version>2.11.1</version>
     </dependency>
 
   </dependencies>
