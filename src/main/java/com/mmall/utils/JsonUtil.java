@@ -12,6 +12,7 @@ import org.apache.poi.ss.formula.functions.T;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +36,10 @@ public class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         // 美化输出
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        // 允许序列化空的POJO类（否则会抛出异常）
+        // 允许序列化空的POJO类（否则会抛出异常）, pojo -> json
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        //jackson反序列化时忽略不需要的字段,json -> class
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 把java.util.Date, Calendar输出为数字（时间戳）
 //        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         // 强制JSON 空字符串("")转换为null对象值:
@@ -95,6 +98,15 @@ public class JsonUtil {
             System.out.println("字符串:"+d);
             Integer e = root.get("e").asInt();
             System.out.println("数字(is null,defaultValue = 0):"+e);
+
+            List<CommonDemo> commonDemoList = new ArrayList<>();
+            commonDemoList.add(new CommonDemo(1L,"westear",null,null,null));
+            commonDemoList.add(new CommonDemo(2L,"Lisa",8,false,null));
+            Map<String, Object> mapp = new HashMap<>();
+            mapp.put("orderId","testId");
+            mapp.put("commonList",commonDemoList);
+            String jsonStr1 = objectMapper.writeValueAsString(mapp);
+            System.out.println(jsonStr1);
         } catch (JsonGenerationException e1){
             log.info("JsonGenerationException:",e1);
         } catch (JsonMappingException e2){

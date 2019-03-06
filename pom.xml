@@ -354,6 +354,13 @@
       <version>2.11.1</version>
     </dependency>
 
+    <!-- RocketMq ons-client-->
+    <dependency>
+      <groupId>com.aliyun.openservices</groupId>
+      <artifactId>ons-client</artifactId>
+      <version>1.7.0.Final</version>
+    </dependency>
+
   </dependencies>
 
 
