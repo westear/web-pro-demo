@@ -317,26 +317,6 @@
       <version>${socket.client}</version>
     </dependency>
 
-    <!-- netty.io -->
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>${netty.io.version}</version>
-    </dependency>
-
-    <!-- JBoss Marshalling -->
-    <dependency>
-      <groupId>org.jboss.marshalling</groupId>
-      <artifactId>jboss-marshalling</artifactId>
-      <version>${JBoss.Marshalling.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.marshalling</groupId>
-      <artifactId>jboss-marshalling-serial</artifactId>
-      <version>${JBoss.Marshalling.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <!-- elastic-job -->
     <dependency>
       <groupId>com.dangdang</groupId>
