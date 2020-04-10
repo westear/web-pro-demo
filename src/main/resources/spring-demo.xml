@@ -8,7 +8,7 @@
     <!-- <bean id="lookupTestPrototypeSub1" class="com.spring.demo.lookup.LookupTestPrototypeSub1" scope="prototype"/>-->
     <!-- <bean id="lookupTestPrototypeSub2" class="com.spring.demo.lookup.LookupTestPrototypeSub2" />-->
 
-    <bean id="lookupTestAbstractSingleton" class="com.spring.demo.lookup.LookupTestAbstractSingleton">
+    <bean id="lookupTestAbstractSingleton" class="com.spring.demo.lookup.LookupTestAbstractSingleton" abstract="true">
         <!-- 等价于注解： @Lookup -->
         <!-- <lookup-method name="getLookupTestPrototype" bean="lookupTestPrototypeSub1" />-->
     </bean>
