@@ -13,4 +13,19 @@
         <!-- <lookup-method name="getLookupTestPrototype" bean="lookupTestPrototypeSub1" />-->
     </bean>
 
+
+    <!-- com.spring.demo.autowired 的使用 bean -->
+    <bean id="autowiredBean" class="com.spring.demo.autowired.XmlAutowiredBean">
+
+    </bean>
+
+    <bean id="xmlReferenceBean" class="com.spring.demo.autowired.XmlReferenceBean">
+        <property name="autowiredBean" ref="autowiredBean" />
+    </bean>
+
+    <bean id="autowiredImpl3" class="com.spring.demo.autowired.typeOrName.AutowiredImpl3" autowire="byName">
+
+    </bean>
+
+
 </beans>
