@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byType">
+    <!-- default-autowire="default" 默认是关闭自动装配的； byType: 根据类型自动装配 -->
+
+    <!-- com.spring.demo.lookup.Test 的使用 bean -->
+
+    <!-- <bean id="lookupTestPrototypeSub1" class="com.spring.demo.lookup.LookupTestPrototypeSub1" scope="prototype"/>-->
+    <!-- <bean id="lookupTestPrototypeSub2" class="com.spring.demo.lookup.LookupTestPrototypeSub2" />-->
+
+    <bean id="lookupTestAbstractSingleton" class="demo.lookup.LookupTestAbstractSingleton" abstract="true">
+        <!-- 等价于注解： @Lookup -->
+        <!-- <lookup-method name="getLookupTestPrototype" bean="lookupTestPrototypeSub1" /> -->
+    </bean>
+
+
+    <!-- com.spring.demo.autowired 的使用 bean -->
+    <bean id="injectBean1" class="demo.autowired.XmlAutowiredBean1">
+
+    </bean>
+
+    <!-- 根据set的属性名称自动装配 -->
+    <bean id="xmlReferenceBean" class="demo.autowired.XmlReferenceBean" autowire="byName">
+        <property name="xmlBean1" ref="injectBean1" />
+    </bean>
+
+    <bean id="bean2" class="demo.autowired.XmlAutowiredBean2">
+
+    </bean>
+
+    <bean id="autowiredImpl3" class="demo.autowired.typeOrName.AutowiredImpl3">
+
+    </bean>
+
+</beans>
