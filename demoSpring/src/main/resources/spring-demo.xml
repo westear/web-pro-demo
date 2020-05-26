@@ -34,4 +34,10 @@
 
     </bean>
 
+
+    <bean id="customFactoryBean" class="demo.factoryBean.CustomFactoryBean">
+        <property name="value" value="prop value" />
+        <property name="count" value="10" />
+    </bean>
+
 </beans>

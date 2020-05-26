@@ -1,0 +1,38 @@
+package com.learn;
+
+import com.learn.config.AppConfig;
+import com.learn.entity.City;
+import com.learn.service.CityService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class AppTest {
+
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(AppConfig.class);
+        context.refresh();
+
+        CityService cityService = context.getBean(CityService.class);
+
+        cityService.query(1, 5);
+        cityService.queryById(2);
+
+        System.out.println(cityService.query(1, 5));
+        System.out.println(cityService.queryById(2));
+
+//        City city = new City();
+//        city.setCity("上海");
+//        city.setCountryId(88);
+//        System.out.println(cityService.insert(city));
+
+//        City city = cityService.queryById(602);
+//        city.setCountryId(88);
+//        System.out.println(cityService.update(city));
+
+//        System.out.println(cityService.update("深圳", 602));
+
+//        System.out.println(cityService.deleteById(601));
+
+//        System.out.println(cityService.deleteByName("上海"));
+    }
+}

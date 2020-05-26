@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mmall</artifactId>
+        <groupId>com.westear</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spring-log</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+<!--            <version>4.3.2.RELEASE</version>-->
+        </dependency>
+
+        <!-- log4j -->
+<!--        <dependency>-->
+<!--            <groupId>log4j</groupId>-->
+<!--            <artifactId>log4j</artifactId>-->
+<!--            <version>1.2.17</version>-->
+<!--        </dependency>-->
+
+        <!-- spring 4.0+ 就在 spring-core 里集成了 commons-logging,
+             Spring5 有单独的 spring-jcl 模块， 没有使用原生的  commons-logging -->
+<!--        <dependency>-->
+<!--            <groupId>commons-logging</groupId>-->
+<!--            <artifactId>commons-logging</artifactId>-->
+<!--            <version>1.2</version>-->
+<!--        </dependency>-->
+
+        <!-- slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <!--
+            logback-core模块为其他两个模块奠定了基础。logback-classic模块可以被简化为log4j的一个显著改进的版本。
+            而且，logback-classic本机实现了SLF4J API，因此您可以轻松地在logback和其他日志记录框架(如log4j或java.util)之间来回切换。
+        -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.1.8</version>
+        </dependency>
+
+        <!-- 直接实现了 slf4j 的接口，不需要绑定器。自身已经依赖了slf4j，不需要再额外引入 slf4j -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.8</version>
+        </dependency>
+
+
+        <!-- 从SLF4J版本1.6开始，在没有绑定的情况下，SLF4J将默认为无操作(NOP)日志记录器实现。http://www.slf4j.org/codes.html#StaticLoggerBinder -->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-jcl</artifactId> &lt;!&ndash; 实现 commons-logging 的绑定器 &ndash;&gt;-->
+<!--            <version>1.7.25</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-log4j12</artifactId> &lt;!&ndash; 实现 log4j 的绑定器, 集成了 log4j 的实现类架包 &ndash;&gt;-->
+<!--            <version>1.7.25</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-slf4j-impl</artifactId>   &lt;!&ndash; Apache Log4j SLF4J API绑定到Log4j 2核心 &ndash;&gt;-->
+<!--            <version>2.12.1</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-jdk14</artifactId>    &lt;!&ndash; 实现 java.util.logging 的绑定器 &ndash;&gt;-->
+<!--            <version>1.7.25</version>-->
+<!--        </dependency>-->
+
+
+        <!-- Slf4j 桥接器 (bridge)  http://www.slf4j.org/legacy.html -->
+
+        <dependency>  <!-- log4j-over-slf4 和 slf4j-log4j12.jar不能同时出现 -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId> <!-- log4j 桥接到 slf4j , 集成了 log4j 的实现类架包  -->
+            <version>1.7.25</version>
+        </dependency>
+
+<!--        <dependency>  &lt;!&ndash; jul-to-slf4.jar和slf4j-jdk14.jar不能同时出现 &ndash;&gt;-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>jul-to-slf4j</artifactId> &lt;!&ndash; jul 桥接到 slf4j &ndash;&gt;-->
+<!--            <version>1.7.25</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>jcl-over-slf4j</artifactId>  &lt;!&ndash; common-logging 桥接到 slf4j &ndash;&gt;-->
+<!--            <version>1.7.25</version>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+</project>

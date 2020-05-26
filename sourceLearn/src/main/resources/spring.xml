@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+<!--    <bean id="beanDao" class="ioc.dao.BeanDaoImpl">-->
+
+<!--    </bean>-->
+
+    <bean id="beanService" class="ioc.service.BeanServiceImpl">
+        <property name="bean" ref="beanDao" />
+    </bean>
+
+    <!-- 构造器注入 -->
+    <bean id="beanService2" class="ioc.service.BeanServiceImpl2">
+        <constructor-arg ref="beanDao" />
+        <constructor-arg ref="constructBeanDao" />
+    </bean>
+
+    <bean id="beanDao" class="ioc.dao.BeanDaoImpl">
+
+    </bean>
+
+    <bean id="constructBeanDao" class="ioc.dao.ConstructBeanDaoImpl">
+
+    </bean>
+
+</beans>
