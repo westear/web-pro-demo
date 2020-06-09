@@ -39,6 +39,14 @@ public interface CityMapper {
     @Options(useGeneratedKeys = true, keyProperty = "city.cityId")
     Integer insert(@Param("city") City city);
 
+    @Insert({" <script>",
+            " insert into city (city, country_id, last_update) values ",
+            " <foreach collection = 'cityList' item='item' index='index' separator=',' >",
+            " (#{item.city}, #{item.countryId}, now()) ",
+            " </foreach>",
+            " </script>"})
+    Integer insertBatch(@Param("cityList") List<City> cityList);
+
     @Delete("delete from city where city_id=#{cityId}")
     Integer deleteById(@Param("cityId") Integer cityId);
 

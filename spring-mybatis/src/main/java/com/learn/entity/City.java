@@ -54,13 +54,13 @@ public class City implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "cityId=" + cityId +
-                ", city='" + city + '\'' +
-                ", countryId=" + countryId +
-                ", lastUpdate=" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lastUpdate.getTime()) +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "City{" +
+//                "cityId=" + cityId +
+//                ", city='" + city + '\'' +
+//                ", countryId=" + countryId +
+//                ", lastUpdate=" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lastUpdate.getTime()) +
+//                '}';
+//    }
 }

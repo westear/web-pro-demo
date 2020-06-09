@@ -29,6 +29,7 @@
 
     <!-- 自定义打印 -->
     <logger name="com.learn.mapper.CityMapper.query" level="DEBUG"/>
+    <logger name="com.learn.mapper.CityMapper.queryById" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
     <root level="INFO">

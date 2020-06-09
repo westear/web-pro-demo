@@ -10,26 +10,28 @@ public class AppTest {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.register(AppConfig.class);
+        context.getEnvironment().setActiveProfiles("aliyun");
         context.refresh();
 
         CityService cityService = context.getBean(CityService.class);
 
-        cityService.query(1, 5);
-        cityService.queryById(2);
+        cityService.query(0, 5);
+//        cityService.queryById(1);
 
-        System.out.println(cityService.query(1, 5));
-        System.out.println(cityService.queryById(2));
+        System.out.println(cityService.query(0, 5));
+        System.out.println(cityService.queryById(1));
 
 //        City city = new City();
-//        city.setCity("上海");
-//        city.setCountryId(88);
+//        city.setCity("北京");
+//        city.setCountryId(11);
 //        System.out.println(cityService.insert(city));
 
 //        City city = cityService.queryById(602);
 //        city.setCountryId(88);
 //        System.out.println(cityService.update(city));
 
-//        System.out.println(cityService.update("深圳", 602));
+//        System.out.println(cityService.update("西安", 1));
+//        System.out.println(cityService.queryById(1));
 
 //        System.out.println(cityService.deleteById(601));
 

@@ -1,5 +1,9 @@
 package com.learn.config;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.learn.log.MyJulLogImpl;
 import org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl;
 import org.apache.ibatis.logging.log4j.Log4jImpl;
@@ -11,12 +15,21 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.connection.DefaultedRedisConnection;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.sql.DataSource;
 import java.util.Objects;
@@ -25,7 +38,8 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = {"com.learn.entity","com.learn.service"})
 @MapperScan(basePackages = {"com.learn.mapper"})
-@PropertySource(value = "classpath:db.properties")
+@PropertySource(value = {"classpath:db.properties"})
+@Import(RedisConfig.class)
 public class AppConfig {
 
     private Environment env;
@@ -44,9 +58,9 @@ public class AppConfig {
      * @throws Exception 异常
      */
     @Bean
-    public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
+    public SqlSessionFactoryBean sqlSessionFactory(@Autowired DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource());
+        factoryBean.setDataSource(dataSource);
 
         //从1.3.0开始，已经添加了configuration属性。它可以直接指定一个配置实例，而不需要MyBatis XML配置文件
         //Configuration 的值设置，参考 https://mybatis.org/mybatis-3/configuration.html
@@ -74,17 +88,35 @@ public class AppConfig {
         //mybatis 和 spring 整合时，mybatis 的一级缓存会失效, spring 每次使用代理操作 session 都会清空
         configuration.setCacheEnabled(Boolean.TRUE);
 
+        //使用mybatis懒加载, 默认是false,true表示立即加载,
+        // 延迟加载就是懒加载，先去查询主表信息，如果用到从表的数据的话，再去查询从表的信息，也就是如果没用到从表的数据的话，就不查询从表的信息。
+        configuration.setLazyLoadingEnabled(false);
+
         factoryBean.setConfiguration(configuration);
         return factoryBean;
     }
 
     @Bean
-    public DataSource dataSource() {
+    @Profile("dev")
+    public DataSource devDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("driverName")));
         dataSource.setUrl(env.getProperty("dev.url"));
         dataSource.setUsername(env.getProperty("dev.username"));
         dataSource.setPassword(env.getProperty("dev.pwd"));
+        //数据库链接属性: //url?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
+        dataSource.setConnectionProperties(dbConnectProperties());
+        return dataSource;
+    }
+
+    @Bean
+    @Profile("aliyun")
+    public DataSource aliyunDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("driverName")));
+        dataSource.setUrl(env.getProperty("aliyun.url"));
+        dataSource.setUsername(env.getProperty("aliyun.username"));
+        dataSource.setPassword(env.getProperty("aliyun.pwd"));
         //数据库链接属性: //url?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=UTC
         dataSource.setConnectionProperties(dbConnectProperties());
         return dataSource;
@@ -104,5 +136,6 @@ public class AppConfig {
         properties.setProperty("serverTimezone","UTC");
         return properties;
     }
+
 
 }
