@@ -38,6 +38,11 @@ public class RedisTemplateTest extends BaseTest {
     }
 
     @Test
+    public void incrby() {
+        System.out.println(redisTemplateUtil.incrBy("key2",7.7));
+    }
+
+    @Test
     public void decr() {
         System.out.println(redisTemplateUtil.decr("decr-number"));
     }

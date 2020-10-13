@@ -37,10 +37,22 @@ public class RedisTemplateUtil {
      * key 相关操作
      */
 
+    /**
+     * TYPE [KEY]
+     * 判断值类型
+     * @param key 键名
+     * @return DataType enum
+     */
     public DataType type(String key) {
         return redisTemplate.type(key);
     }
 
+    /**
+     * 判断键是否存在
+     * EXISTS [KEY]
+     * @param keys key list
+     * @return
+     */
     public Long existsKey(List<String> keys) {
         return redisTemplate.countExistingKeys(keys);
     }
@@ -55,6 +67,7 @@ public class RedisTemplateUtil {
     }
 
     /**
+     * 为指定key的值加一（整数 + 1）
      * INCR [KEY]
      * @param key
      * @return Long
@@ -64,6 +77,7 @@ public class RedisTemplateUtil {
     }
 
     /**
+     * 为指定key的值增加指定 int 类型数值（整数 + 整数）
      * INCRBY [KEY]
      * @param key
      * @return Long
@@ -73,7 +87,8 @@ public class RedisTemplateUtil {
     }
 
     /**
-     * INCRBY [KEY]
+     * 为指定key的值增加指定 double 类型数值（小数 + 小数）
+     * INCRBYFLOAT [KEY]
      * @param key
      * @return Double
      */
@@ -82,6 +97,7 @@ public class RedisTemplateUtil {
     }
 
     /**
+     * 为指定key的值减少 int 类型数值（整数 - 1）
      * DECR [KEY]
      * @param key
      * @return Long
@@ -90,6 +106,7 @@ public class RedisTemplateUtil {
         return redisTemplate.boundValueOps(key).decrement();
     }
     /**
+     * 为指定key的值减少指定 int 类型数值（整数 - 整数）
      * DECRBY [KEY]
      * @param key
      * @return Long
@@ -97,6 +114,9 @@ public class RedisTemplateUtil {
     public Long decrBy(String key, long step) {
         return redisTemplate.boundValueOps(key).decrement(step);
     }
+    /**
+     * DECR 不存在 DECRBYFLOAT （小数 - 小数） 的操作
+     */
 
 
     /**
@@ -187,6 +207,29 @@ public class RedisTemplateUtil {
 
     public Boolean del(String key) {
         return redisTemplate.delete(key);
+    }
+
+    /**
+     * 获取指定区间范围内的值
+     * getrange [key] [start] [end]
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    public String getrange(String key , long start, long end) {
+        return redisTemplate.boundValueOps(key).get(start, end);
+    }
+
+    /**
+     * 设置指定区间范围内的值
+     * setrange [key] [start] [end]
+     * @param key
+     * @param start
+     * @param end
+     */
+    public void setrange(String key , long start, long end) {
+        redisTemplate.boundValueOps(key).set(start, end);
     }
 
     /**

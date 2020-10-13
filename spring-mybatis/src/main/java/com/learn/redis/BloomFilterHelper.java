@@ -11,6 +11,9 @@ import javax.annotation.PostConstruct;
 
 /**
  * 布隆过滤器帮助类
+ * bitmapLength = -(numApproxElements * ln fpp)/(ln2^ln2)
+ * hashFunctionCount = (m/n)*ln2
+ * numApproxElements = 预计插入长度; fpp = 误差率; hashFunctionCount = hash函数个数; bitmapLength = bitmap长度
  */
 @Component
 public class BloomFilterHelper<T> {
@@ -44,6 +47,8 @@ public class BloomFilterHelper<T> {
 
     /**
      * 计算bit数组长度
+     * @param n 预估元素长度
+     * @param p 误差率
      */
     private int optimalNumOfBits(long n, double p) {
         if (p == 0) {
@@ -54,6 +59,7 @@ public class BloomFilterHelper<T> {
 
     /**
      * 计算hash方法执行次数
+     * @param n 预估元素长度
      */
     private int optimalNumOfHashFunctions(long n, long m) {
         return Math.max(1, (int) Math.round((double) m / n * Math.log(2)));
