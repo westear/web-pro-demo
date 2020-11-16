@@ -39,7 +39,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"com.learn.entity","com.learn.service"})
 @MapperScan(basePackages = {"com.learn.mapper"})
 @PropertySource(value = {"classpath:db.properties"})
-@Import(RedisConfig.class)
+@Import(value = {RedisConfig.class,RedissonConfig.class})
 public class AppConfig {
 
     private Environment env;

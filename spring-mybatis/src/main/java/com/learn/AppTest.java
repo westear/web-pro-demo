@@ -16,7 +16,7 @@ public class AppTest {
         CityService cityService = context.getBean(CityService.class);
 
         cityService.query(0, 5);
-//        cityService.queryById(1);
+        cityService.queryById(1);
 
         System.out.println(cityService.query(0, 5));
         System.out.println(cityService.queryById(1));
